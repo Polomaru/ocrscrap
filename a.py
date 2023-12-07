@@ -27,26 +27,22 @@ def ocr_from_image(image):
     text = pytesseract.image_to_string(image)
     return text
 
-def extract_information(text, num_digits=8, keyword='PACIENTE:'):
-    # Busca el primer número de num_digits dígitos
+def extract_information(text,num_digits=8, keyword='PACIENTE:'):
     match_numero = re.search(rf'\b\d{{{num_digits}}}\b', text)
-    numero_digitos = match_numero.group() if match_numero else None
+    numero_digitos = match_numero.group() if match_numero else ''
 
+    x = ''
     lines = text.split('\n')
     
-    # Busca la palabra keyword y obtiene las líneas siguientes hasta la próxima línea en blanco
-    keyword_line = next((line for line in lines if keyword in line), None)
-    
-    if keyword_line:
-        start_index = lines.index(keyword_line)
-        next_blank_line = next((i for i, line in enumerate(lines[start_index + 1:]) if not line.strip()), None)
-        
-        if next_blank_line is not None:
-            end_index = start_index + 1 + next_blank_line
-            palabras_despues_keyword = ' '.join(lines[start_index + 1:end_index]).strip()
-            return numero_digitos, palabras_despues_keyword
-    
-    return None, ''
+    for i, line in enumerate(lines):
+        if keyword in line:
+            # Busca la próxima línea que no esté en blanco
+            for j in range(i + 1, len(lines)):
+                if lines[j].strip():
+                    # Imprime la información después de la keyword
+                    x = (lines[j].strip())
+                    break
+    return numero_digitos, x
 
 
 def save_text_to_txt(text, output_path):
@@ -55,7 +51,8 @@ def save_text_to_txt(text, output_path):
 
 
 def main(inpu):
-    pdf_path = 'E:\CLINICA SANENS\Clinica sanens sem1\\'+(inpu)+'.pdf'
+    path = 'D:\Clinica sanens sem2\\'
+    pdf_path = path+(inpu)+'.pdf'
     page_number = 1
     # Ajusta la resolución y el contraste según tus necesidades
     resolution = 150
@@ -70,16 +67,16 @@ def main(inpu):
     output_path = 'output.txt'
     save_text_to_txt(text, output_path)
 
-    nombre = str (inpu[0:5] +" "+ numero_8_digitos +" "+ palabras_despues_paciente)
+    nombre = str (inpu[0:4] +" "+ numero_8_digitos +" "+ palabras_despues_paciente)
     print (nombre)
 
-    nuevo_path = "E:\CLINICA SANENS\Clinica sanens sem1\\"+nombre+".pdf"
+    nuevo_path = path+nombre+".pdf"
     with open('nombre.txt', 'w', encoding='utf-8') as nombre_file:
          nombre_file.write(nuevo_path)
 
-    respuesta = input("¿Desea cambiar el nombre del archivo? (Y/N): ").lower()
+    respuesta = input("¿Desea cambiar el nombre del archivo? (Y/ i / 9 /2 /N): ").lower()
     
-
+    respuesta = respuesta.lower()
     if respuesta == 'y' or respuesta == 'Y':
         # Cambia el nombre del archivo
 
@@ -93,10 +90,10 @@ def main(inpu):
         print()
 
         numero_8_digitos, palabras_despues_paciente = extract_information(text,8,'PACIENTEI')
-        nombre = str (inpu[0:5] +" "+ numero_8_digitos +" "+ palabras_despues_paciente)
+        nombre = str (inpu[0:4] +" "+ numero_8_digitos +" "+ palabras_despues_paciente)
         print (nombre)
 
-        nuevo_path = "E:\CLINICA SANENS\Clinica sanens sem1\\"+nombre+".pdf"
+        nuevo_path = path+nombre+".pdf"
         with open('nombre.txt', 'w', encoding='utf-8') as nombre_file:
             nombre_file.write(nuevo_path)
         respuesta = input("¿Desea cambiar el nombre del archivo? (Y/N): ").lower()
@@ -114,17 +111,40 @@ def main(inpu):
         print()
 
         numero_8_digitos, palabras_despues_paciente = extract_information(text,9)
-        nombre = str (inpu[0:5] +" "+ numero_8_digitos +" "+ palabras_despues_paciente)
+        nombre = str (inpu[0:4] +" "+ numero_8_digitos +" "+ palabras_despues_paciente)
         print (nombre)
 
-        nuevo_path = "E:\CLINICA SANENS\Clinica sanens sem1\\"+nombre+".pdf"
+        nuevo_path = path+nombre+".pdf"
         with open('nombre.txt', 'w', encoding='utf-8') as nombre_file:
             nombre_file.write(nuevo_path)
 
-        with open('nombre.txt', 'r', encoding='utf-8') as nombre_file:
-            nuevo_nombre = nombre_file.read().strip()
-            os.rename(pdf_path, nuevo_nombre)
-        print(f"El nombre del archivo ha sido cambiado a: {nuevo_path}")
+        respuesta = input("¿Desea cambiar el nombre del archivo? (Y/ i / 9 /2 /N): ").lower()
+        
+        if respuesta == 'y' or respuesta == 'Y':
+        # Cambia el nombre del archivo
+            with open('nombre.txt', 'r', encoding='utf-8') as nombre_file:
+                nuevo_nombre = nombre_file.read().strip()
+                os.rename(pdf_path, nuevo_nombre)
+            print(f"El nombre del archivo ha sido cambiado a: {nuevo_path}")
+    elif(respuesta == '2'):
+        print("NOSECAMBIO")
+        print()
+
+        numero_8_digitos, palabras_despues_paciente = extract_information(text,8, 'DATOS PERSONALES')
+        nombre = str (inpu[0:4] +" "+ numero_8_digitos +" "+ palabras_despues_paciente)
+        print (nombre)
+
+        nuevo_path = path+nombre+".pdf"
+        with open('nombre.txt', 'w', encoding='utf-8') as nombre_file:
+            nombre_file.write(nuevo_path)
+        respuesta = input("¿Desea cambiar el nombre del archivo? (Y/ i / 9 /2 /N): ").lower()
+        
+        if respuesta == 'y' or respuesta == 'Y':
+        # Cambia el nombre del archivo
+            with open('nombre.txt', 'r', encoding='utf-8') as nombre_file:
+                nuevo_nombre = nombre_file.read().strip()
+                os.rename(pdf_path, nuevo_nombre)
+            print(f"El nombre del archivo ha sido cambiado a: {nuevo_path}")
 if __name__ == "__main__":
     archivo_nombres_sin_extension = "nombres_sin_extension.txt"
 
