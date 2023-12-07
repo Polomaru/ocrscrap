@@ -1,23 +1,11 @@
-import os
-import PyPDF2
+# Ruta del archivo que contiene los nombres sin extensión
+archivo_nombres_sin_extension = "nombres_sin_extension.txt"
 
-def contar_paginas_pdf(carpeta):
-    total_paginas = 0
-
-    for directorio_actual, _, archivos in os.walk(carpeta):
-        for archivo in archivos:
-            if archivo.endswith(".pdf"):
-                ruta_completa = os.path.join(directorio_actual, archivo)
-                with open(ruta_completa, "rb") as file:
-                    pdf_reader = PyPDF2.PdfFileReader(file)
-                    total_paginas += pdf_reader.numPages
-
-    return total_paginas
-
-# Ruta de la carpeta en el USB (cambia la letra de unidad según sea necesario)
-carpeta_pdf_usb = "E:/"
-
-# Llamada a la función para contar páginas
-total_paginas = contar_paginas_pdf(carpeta_pdf_usb)
-
-print(f"El total de páginas en los archivos PDF en el USB ({carpeta_pdf_usb}) es: {total_paginas}")
+# Leer el archivo y imprimir cada línea
+with open(archivo_nombres_sin_extension, "r") as archivo_txt:
+    lineas = archivo_txt.readlines()
+    for linea in lineas:
+        # Eliminar caracteres de nueva línea y espacios adicionales
+        nombre_limpiado = linea.strip()
+        print(nombre_limpiado)
+        lineas.remove(linea)
