@@ -27,7 +27,7 @@ def ocr_from_image(image):
     text = pytesseract.image_to_string(image)
     return text
 
-def extract_information(text,num_digits=8, keyword='PACIENTE:'):
+def extract_information(text,num_digits=8, keyword='PACIENTE'):
     match_numero = re.search(rf'\b\d{{{num_digits}}}\b', text)
     numero_digitos = match_numero.group() if match_numero else ''
 
@@ -35,14 +35,15 @@ def extract_information(text,num_digits=8, keyword='PACIENTE:'):
     lines = text.split('\n')
     
     for i, line in enumerate(lines):
-        if keyword in line:
+        line= re.sub(r'[^a-zA-Z ]', '', line)
+        if keyword == line:
             # Busca la próxima línea que no esté en blanco
             for j in range(i + 1, len(lines)):
                 if lines[j].strip():
                     # Imprime la información después de la keyword
                     x = (lines[j].strip())
-                    break
-    return numero_digitos, x
+                    break 
+    return numero_digitos, re.sub(r'[^a-zA-Z ]', '', x)
 
 
 def save_text_to_txt(text, output_path):
@@ -67,7 +68,7 @@ def main(inpu):
     output_path = 'output.txt'
     save_text_to_txt(text, output_path)
 
-    nombre = str (inpu[0:4] +" "+ numero_8_digitos +" "+ palabras_despues_paciente)
+    nombre = str (inpu[0:5] +" "+ numero_8_digitos +" "+ palabras_despues_paciente)
     print (nombre)
 
     nuevo_path = path+nombre+".pdf"
@@ -90,7 +91,7 @@ def main(inpu):
         print()
 
         numero_8_digitos, palabras_despues_paciente = extract_information(text,8,'PACIENTEI')
-        nombre = str (inpu[0:4] +" "+ numero_8_digitos +" "+ palabras_despues_paciente)
+        nombre = str (inpu[0:5] +" "+ numero_8_digitos +" "+ palabras_despues_paciente)
         print (nombre)
 
         nuevo_path = path+nombre+".pdf"
@@ -111,7 +112,7 @@ def main(inpu):
         print()
 
         numero_8_digitos, palabras_despues_paciente = extract_information(text,9)
-        nombre = str (inpu[0:4] +" "+ numero_8_digitos +" "+ palabras_despues_paciente)
+        nombre = str (inpu[0:5] +" "+ numero_8_digitos +" "+ palabras_despues_paciente)
         print (nombre)
 
         nuevo_path = path+nombre+".pdf"
@@ -131,7 +132,7 @@ def main(inpu):
         print()
 
         numero_8_digitos, palabras_despues_paciente = extract_information(text,8, 'DATOS PERSONALES')
-        nombre = str (inpu[0:4] +" "+ numero_8_digitos +" "+ palabras_despues_paciente)
+        nombre = str (inpu[0:5] +" "+ numero_8_digitos +" "+ palabras_despues_paciente)
         print (nombre)
 
         nuevo_path = path+nombre+".pdf"
