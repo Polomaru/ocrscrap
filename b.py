@@ -27,34 +27,36 @@ def ocr_from_image(image):
     text = pytesseract.image_to_string(image)
     return text
 
-def extract_information(text,num_digits=8, keyword='Nombres', fin='Edad:'):
+def extract_information(text,num_digits=8):
     match_numero = re.search(rf'\b\d{{{num_digits}}}\b', text)
     numero_digitos = match_numero.group() if match_numero else ''
 
     x = ''
     lines = text.split('\n')
     
-    pend=["Edad", "leet"]
+    pinit = ["Nombre", "iNombre", "ombres", "yombres"]
+    pend=["Edad", "leet", "lEdacj","Ldad", "Edag", "lEdad", "IEdad", "Ead", "TEdad", "JEdad", "LEdad"]
     for i in (lines):
         i= re.sub(r'[^a-zA-Z ]', '', i)
-        if i.startswith(keyword):
-            # Dividir la cadena en palabras
-            palabras = i.split()
-            print(palabras)
-            # Encontrar la posición de "Edad"
-            indice_edad=0
-            for p in pend:
-                try:
-                    indice_edad = palabras.index(p)
-                except ValueError:
-                    print("nuevo item xd")
-            
+        for key in pinit:
+            if i.startswith(key):
+                # Dividir la cadena en palabras
+                palabras = i.split()
+                print(palabras)
+                # Encontrar la posición de "Edad"
+                indice_edad=0
+                for p in pend:
+                    try:
+                        indice_edad = palabras.index(p)
+                    except ValueError:
+                        print("nuevo item xd")
+                
 
-            # El nombre es la lista de palabras desde el inicio hasta la posición de "Edad"
-            nombre = ' '.join(palabras[1:indice_edad])
+                # El nombre es la lista de palabras desde el inicio hasta la posición de "Edad"
+                nombre = ' '.join(palabras[1:indice_edad])
 
-            x=nombre
-            break
+                x=nombre
+                return numero_digitos, x
     return numero_digitos, x
 
 
@@ -62,14 +64,39 @@ def save_text_to_txt(text, output_path):
     with open(output_path, 'w', encoding='utf-8') as txt_file:
         txt_file.write(text)
 
+def convertir_pdf_a_imagen(pdf_path, imagen_salida):
+    # Abrir el archivo PDF
+    pdf_documento = fitz.open(pdf_path)
+
+    # Obtener la primera página
+    pagina = pdf_documento[0]
+
+    # Obtener las dimensiones de la página
+    ancho, alto = pagina.mediabox_size
+
+    # Definir las coordenadas de la parte superior de la página (ajusta según tus necesidades)
+    x0, y0, x1, y1 = 0, 0, ancho, alto // 2
+
+    # Extraer la región de la parte superior de la página como una imagen
+    region = fitz.Rect(x0, y0, x1, y1)
+    imagen = pagina.get_pixmap(matrix=fitz.Matrix(300 / 72, 300 / 72), clip=region)
+
+    # Guardar la imagen
+    imagen.save(imagen_salida)
+
+    # Cerrar el documento PDF
+    pdf_documento.close()
+
+imagen_salida = "ps.png"
 
 def main(inpu):
-    path = 'D:\Clinica sanens sem2\\'
+    path = 'E:\CLINICA SANENS\Clinica sanens sem1\\'
     pdf_path = path+(inpu)+'.pdf'
     page_number = 1
     # Ajusta la resolución y el contraste según tus necesidades
-    resolution = 150
-    contrast_factor = 1.5
+    resolution = 200
+    contrast_factor = 2
+    convertir_pdf_a_imagen(pdf_path, imagen_salida)
 
     image = pdf_to_bw_image(pdf_path, page_number, resolution, contrast_factor)
 
