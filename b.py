@@ -35,11 +35,11 @@ def extract_information(text,num_digits=8):
     lines = text.split('\n')
     
     pinit = ["Nombre", "iNombre", "ombres", "yombres"]
-    pend=["Edad", "leet", "lEdacj","Ldad", "Edag", "lEdad", "IEdad", "Ead", "TEdad", "JEdad", "LEdad"]
+    pend=["Edad", "leet", "lEdacj","Ldad", "Edag", "lEdad", "IEdad", "Ead", "TEdad", "JEdad"]
     for i in (lines):
-        i= re.sub(r'[^a-zA-Z ]', '', i)
+        i= re.sub(r'[^a-zA-Z ]', '', i).upper()
         for key in pinit:
-            if i.startswith(key):
+            if i.startswith(key.upper()):
                 # Dividir la cadena en palabras
                 palabras = i.split()
                 print(palabras)
@@ -47,7 +47,7 @@ def extract_information(text,num_digits=8):
                 indice_edad=0
                 for p in pend:
                     try:
-                        indice_edad = palabras.index(p)
+                        indice_edad = palabras.index(p.upper())
                     except ValueError:
                         print("nuevo item xd")
                 
@@ -90,7 +90,7 @@ def convertir_pdf_a_imagen(pdf_path, imagen_salida):
 imagen_salida = "ps.png"
 
 def main(inpu):
-    path = 'E:\CLINICA SANENS\Clinica sanens sem1\\'
+    path = 'D:\CLINICA SANENS\Clinica sanens sem1\\'
     pdf_path = path+(inpu)+'.pdf'
     page_number = 1
     # Ajusta la resolución y el contraste según tus necesidades

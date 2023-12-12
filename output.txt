@@ -1,67 +1,47 @@
-FICHA DE INGRESO N9 15323093
+N2 H.C. 1638
+cp sanens 10065758
 
-N‘-’ H.C. 12790
-08235360
+TU SALUD ES PRIMERO
 
-rkmesxql 0?
+FICHA DE INGRESO N2 28823083 Domingo 9¢/08
 
-QM
-
-Fecha: 18/09/2023 Hora:17:18
+Fecha: 26/08/2023 Hora:10:00
 
 DATOS PERSONALES
 
-Correo electrénicoz .
+Nombres: |FEUOO AMPUERO JOSAINEE
 
-Doc.|denctidad: 08235360
+Edad: | ae Sexo: _|Femenino
 
-Direccién: LIMA
+Doc.Idenctidad: 10065758
 
-Ubigeo: \ \QY* \o_3 gvlob Zea. b‘r~b €awc,c‘«\9 . Voqinc
-Teléfonoz Teléfono movilr ‘era Q>E8(B 8%’
+Direccién: ESTADOS UNIDOS
+Ubigeo: \\
+Teléfono: ; Teléfono movil: 986094227
 
-Aseguradora:
+Correo electrénico: |.
 
-.PART|CULAR
+Aseguradora: -PARTICULAR
 
 DATOS DEL INGRESO
 
-‘ Tipo de lngreso: HOSPITALARIO
+Tipo de Ingreso: |HOSPITALARIO Motivo Ingreso: CIRUGIA Cama:
+Procedimiento: |LIPO VASER +CAMBIO DE IMPLANTES
 
-I
-[Motive lngreso: CIRUGIA Jcama:
+Tipo de Habitacién: |UNIPERSONAL io Pago: Pcte Paga Pre..Ope. Med. Paga Clinica
 
-Procedimiento: rC|RUG|'A PIERNAS +JPLASMA+LlPO DE BRAZOS + AX||.rAR+
-
-Tipo de Habitacién:
-
-UNIPERSONAL ‘Tipo Pago:
-
-Pcte Paga Pre..Ope. Med. Paga Clinica
-
-Médico:
-
-PASTOR LOPEZ MARCELO
-
-Especialidad:
+Médico:|HERNANDEZ SALAZAR JULIO ‘cpeciaed
 
 RESPONSABLE DEL PACIENTE
 
-Nombres:  g(‘Q7dl(p(
+|Nombres: |MISHEL Doc.Idenctidad:
 
- 
+|
+[Direccién: _
+Parentesco: AMIGA Teléfono: baso0az27
+[Observaciones:
+Usuario: AARCOS _~
+no! O24
+Valle 60 |
 
-Doc.|denctidad:
-
-. , . .RE5P0N5AB|-El. .
-
-——l
-Direccién:
-;Parentesco: Teléfon : l
-Obser.\/aciones: ?A  K5 
-Usuano: MRIME ___‘_  ' QUA
-
-. . . . . . . . ..PAC1EN,TE.........
-
- 
-
+RESPONSABLE: PACIENTE.
