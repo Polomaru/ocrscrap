@@ -56,7 +56,26 @@ def extract_information(text,num_digits=8):
                 nombre = ' '.join(palabras[1:indice_edad])
 
                 x=nombre
-                return numero_digitos, x
+                t = x.split()
+                x=''
+                for i in t:
+                    if len(i)>2 or i=="DE" or i=="LA":
+                        if i=="NUNEZ":
+                            x=x+"NUÑEZ"+" "
+                        elif i=="PENA":
+                            x=x+"PEÑA"+" "
+                        elif i=="BRENA":
+                            x=x+"BREÑA"+" "
+                        elif i=="ZUNIGA":
+                            x=x+"ZUÑIGA"+" "
+                        elif i=="MUNOZ":
+                            x=x+"MUÑOZ"+" "
+                        elif i=="CASTANEDA":
+                            x=x+"CASTAÑEDA"+" "
+                        else:
+                            x=x+i+" "
+    
+                return numero_digitos, x[0:len(x)-1]
     return numero_digitos, x
 
 
@@ -90,7 +109,7 @@ def convertir_pdf_a_imagen(pdf_path, imagen_salida):
 imagen_salida = "ps.png"
 
 def main(inpu):
-    path = 'D:\CLINICA SANENS\Clinica sanens sem1\\'
+    path = 'D:\CLINICA SANENS\Clinica sanens sem2\\'
     pdf_path = path+(inpu)+'.pdf'
     page_number = 1
     # Ajusta la resolución y el contraste según tus necesidades

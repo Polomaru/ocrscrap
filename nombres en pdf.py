@@ -1,7 +1,7 @@
 import os
 
 # Ruta de la carpeta
-carpeta = "E:\CLINICA SANENS\Clinica sanens sem1"
+carpeta = "D:\CLINICA SANENS\Clinica sanens sem3"
 
 # Obtener la lista de archivos en la carpeta
 archivos = os.listdir(carpeta)

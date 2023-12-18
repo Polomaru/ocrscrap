@@ -3,6 +3,7 @@ from PIL import Image, ImageEnhance, ImageOps
 import pytesseract
 import re
 import os
+
 def pdf_to_bw_image(pdf_path, page_number, resolution=600, contrast_factor=2.0):
     pdf_document = fitz.open(pdf_path)
     page = pdf_document.load_page(page_number - 1)
@@ -35,7 +36,8 @@ def extract_information(text,num_digits=8, keyword='PACIENTE'):
     lines = text.split('\n')
     
     for i, line in enumerate(lines):
-        line= re.sub(r'[^a-zA-Z ]', '', line)
+        line = re.sub(r'[^a-zA-Z ]', '', line)
+        line = line.replace(" ", "").replace("  ", "") 
         if keyword == line:
             # Busca la próxima línea que no esté en blanco
             for j in range(i + 1, len(lines)):
@@ -43,7 +45,46 @@ def extract_information(text,num_digits=8, keyword='PACIENTE'):
                     # Imprime la información después de la keyword
                     x = (lines[j].strip())
                     break 
-    return numero_digitos, re.sub(r'[^a-zA-Z ]', '', x)
+    x = re.sub(r'[^a-zA-Z ]', '', x)
+
+    t = x.split()
+    x=''
+    for i in t:
+        if len(i)>2 or i=="DE" or i=="LA" or i=="DA" or i=="FE":
+            if i=="NUNEZ":
+                x=x+"NUÑEZ"+" "
+            elif i=="PENA":
+                x=x+"PEÑA"+" "
+            elif i=="ACUNA":
+                x=x+"ACUÑA"+" "
+            elif i=="BRENA":
+                x=x+"BREÑA"+" "
+            elif i=="ZUNIGA":
+                x=x+"ZUÑIGA"+" "
+            elif i=="MUNOZ":
+                x=x+"MUÑOZ"+" "
+            elif i=="CASTANEDA":
+                x=x+"CASTAÑEDA"+" "
+            elif i=="ORMENO":
+                x=x+"ORMEÑO"+" "
+            elif i=="RUBINOS":
+                x=x+"RUBIÑOS"+" "
+            elif i=="SALDANA":
+                x=x+"SALDAÑA"+" "
+            elif i=="IBANEZ":
+                x=x+"IBAÑEZ"+" "
+            elif i=="REANO":
+                x=x+"REAÑO"+" "
+            elif i=="QUINONES":
+                x=x+"QUIÑONES"+" "
+            elif i=="QUINONEZ":
+                x=x+"QUIÑONEZ"+" "
+            elif i=="SUANA":
+                x=x+"SUAÑA"+" "
+            else:
+                x=x+i+" "
+    
+    return numero_digitos, x[0:len(x)-1]
 
 
 def save_text_to_txt(text, output_path):
@@ -74,8 +115,8 @@ def convertir_pdf_a_imagen(pdf_path, imagen_salida):
 
 imagen_salida = "ps.png"
 
-def main(inpu):
-    path = 'D:\Clinica sanens sem2\\'
+def main(inpu,t):
+    path = 'D:\CLINICA SANENS\Clinica sanens sem3\\'
     pdf_path = path+(inpu)+'.pdf'
     page_number = 1
     # Ajusta la resolución y el contraste según tus necesidades
@@ -93,30 +134,36 @@ def main(inpu):
     output_path = 'output.txt'
     save_text_to_txt(text, output_path)
 
-    nombre = str (inpu[0:5] +" "+ numero_8_digitos +" "+ palabras_despues_paciente)
+    nombre = str (inpu[0:t] +" "+ numero_8_digitos +" "+ palabras_despues_paciente)
+    nombre = nombre.replace("  ", " ").replace("   ", " ")
+    print()
     print (nombre)
 
     nuevo_path = path+nombre+".pdf"
     with open('nombre.txt', 'w', encoding='utf-8') as nombre_file:
          nombre_file.write(nuevo_path)
 
+    print()
     respuesta = input("¿Desea cambiar el nombre del archivo? (Y/ i / 9 /2 /N): ").lower()
     
     respuesta = respuesta.lower()
-    if respuesta == 'y' or respuesta == 'Y':
+    if respuesta == 'y' or respuesta == 'Y' or respuesta == "":
         # Cambia el nombre del archivo
 
+        nuevo_nombre=""
         with open('nombre.txt', 'r', encoding='utf-8') as nombre_file:
             nuevo_nombre = nombre_file.read().strip()
             os.rename(pdf_path, nuevo_nombre)
-        print(f"El nombre del archivo ha sido cambiado a: {nuevo_path}")
-
+        print()
+        print("El nombre del archivo ha sido cambiado a:")
+        print(nuevo_nombre)
     elif(respuesta == 'i'):
         print("NOSECAMBIO")
         print()
 
         numero_8_digitos, palabras_despues_paciente = extract_information(text,8,'PACIENTEI')
-        nombre = str (inpu[0:5] +" "+ numero_8_digitos +" "+ palabras_despues_paciente)
+        nombre = str (inpu[0:t] +" "+ numero_8_digitos +" "+ palabras_despues_paciente)
+        nombre = nombre.replace("  ", " ")
         print (nombre)
 
         nuevo_path = path+nombre+".pdf"
@@ -125,19 +172,21 @@ def main(inpu):
         respuesta = input("¿Desea cambiar el nombre del archivo? (Y/N): ").lower()
     
 
-        if respuesta == 'y' or respuesta == 'Y':
+        if respuesta == 'y' or respuesta == 'Y' or respuesta == "":
         # Cambia el nombre del archivo
             with open('nombre.txt', 'r', encoding='utf-8') as nombre_file:
                 nuevo_nombre = nombre_file.read().strip()
                 os.rename(pdf_path, nuevo_nombre)
-            print(f"El nombre del archivo ha sido cambiado a: {nuevo_path}")
-        
+            print()
+            print("El nombre del archivo ha sido cambiado a:")
+            print(nuevo_nombre)
     elif(respuesta == '9'):
         print("NOSECAMBIO")
         print()
 
         numero_8_digitos, palabras_despues_paciente = extract_information(text,9)
-        nombre = str (inpu[0:5] +" "+ numero_8_digitos +" "+ palabras_despues_paciente)
+        nombre = str (inpu[0:t] +" "+ numero_8_digitos +" "+ palabras_despues_paciente)
+        nombre = nombre.replace("  ", " ")
         print (nombre)
 
         nuevo_path = path+nombre+".pdf"
@@ -146,39 +195,45 @@ def main(inpu):
 
         respuesta = input("¿Desea cambiar el nombre del archivo? (Y/ i / 9 /2 /N): ").lower()
         
-        if respuesta == 'y' or respuesta == 'Y':
+        if respuesta == 'y' or respuesta == 'Y' or respuesta == "":
         # Cambia el nombre del archivo
             with open('nombre.txt', 'r', encoding='utf-8') as nombre_file:
                 nuevo_nombre = nombre_file.read().strip()
                 os.rename(pdf_path, nuevo_nombre)
-            print(f"El nombre del archivo ha sido cambiado a: {nuevo_path}")
-    elif(respuesta == '2'):
-        print("NOSECAMBIO")
+            print(f"El nombre del archivo ha sido cambiado a: ")
+            print(nuevo_path)
+            print()
+        else:
+            print("repit")
+            print()
+            main(inpu)
+    elif(respuesta == 'r'):
+        print("repit")
         print()
-
-        numero_8_digitos, palabras_despues_paciente = extract_information(text,8, 'DATOS PERSONALES')
-        nombre = str (inpu[0:5] +" "+ numero_8_digitos +" "+ palabras_despues_paciente)
-        print (nombre)
-
-        nuevo_path = path+nombre+".pdf"
-        with open('nombre.txt', 'w', encoding='utf-8') as nombre_file:
-            nombre_file.write(nuevo_path)
-        respuesta = input("¿Desea cambiar el nombre del archivo? (Y/ i / 9 /2 /N): ").lower()
-        
-        if respuesta == 'y' or respuesta == 'Y':
-        # Cambia el nombre del archivo
-            with open('nombre.txt', 'r', encoding='utf-8') as nombre_file:
-                nuevo_nombre = nombre_file.read().strip()
-                os.rename(pdf_path, nuevo_nombre)
-            print(f"El nombre del archivo ha sido cambiado a: {nuevo_path}")
+        main(inpu)
+    else:
+        print("repit")
+        print()
+        main(inpu)
 if __name__ == "__main__":
     archivo_nombres_sin_extension = "nombres_sin_extension.txt"
 
-    # Leer el archivo y imprimir cada línea
-    with open(archivo_nombres_sin_extension, "r") as archivo_txt:
-        lineas = archivo_txt.readlines()
-        for linea in lineas:
-            # Eliminar caracteres de nueva línea y espacios adicionales
-            nombre_limpiado = linea.strip()
-            main(nombre_limpiado)
+    t = int(input("N: "))
+    while True:
+        # Leer la primera fila
+        with open(archivo_nombres_sin_extension, 'r') as archivo:
+            primer_fila = archivo.readline().strip()
 
+        # Verificar si se llegó al final del archivo
+        if not primer_fila:
+            print("Fin del archivo. No hay más filas para procesar.")
+            break
+
+        main(primer_fila,t)
+
+        # Eliminar la primera fila
+        with open(archivo_nombres_sin_extension, 'r') as archivo:
+            lineas = archivo.readlines()
+
+        with open(archivo_nombres_sin_extension, 'w') as archivo:
+            archivo.writelines(lineas[1:])
