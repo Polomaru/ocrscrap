@@ -34,17 +34,20 @@ def extract_information(text,num_digits=8, keyword='PACIENTE'):
 
     x = ''
     lines = text.split('\n')
-    
+    keywords = ["PACIENTE", "PACENTE"]
     for i, line in enumerate(lines):
         line = re.sub(r'[^a-zA-Z ]', '', line)
-        line = line.replace(" ", "").replace("  ", "") 
-        if keyword == line:
-            # Busca la próxima línea que no esté en blanco
-            for j in range(i + 1, len(lines)):
-                if lines[j].strip():
-                    # Imprime la información después de la keyword
-                    x = (lines[j].strip())
-                    break 
+        line = line.replace(" ", "").replace("  ", "")
+        print(line) 
+        for keyi in keywords:
+            if keyi == line:
+                # Busca la próxima línea que no esté en blanco
+                for j in range(i + 1, len(lines)):
+                    if lines[j].strip():
+                        # Imprime la información después de la keyword
+                        x = (lines[j].strip())
+                        break
+                break 
     x = re.sub(r'[^a-zA-Z ]', '', x)
 
     t = x.split()
@@ -116,11 +119,11 @@ def convertir_pdf_a_imagen(pdf_path, imagen_salida):
 imagen_salida = "ps.png"
 
 def main(inpu,t):
-    path = 'D:\CLINICA SANENS\Clinica sanens sem3\\'
+    path = r'C:\Users\USUARIO\Desktop\clinica sanens\sem4\\'
     pdf_path = path+(inpu)+'.pdf'
     page_number = 1
     # Ajusta la resolución y el contraste según tus necesidades
-    resolution = 150
+    resolution = 200
     contrast_factor = 1.5
 
     convertir_pdf_a_imagen(pdf_path, imagen_salida)
