@@ -110,17 +110,24 @@ def convert_folder_to_bw(input_folder, output_folder, dpi=100):
 
             # Filtra las páginas con porcentaje de blanco mayor al 98%
             filtered_pages = [(page, white_percentage) for page, white_percentage in page_info_list if white_percentage > 99.8]
+            
+            new_pdf_path = os.path.join(output_folder, f"C:\\Users\\riosv\\OneDrive\\Desktop\\New folder (2)\\BORRADO\{os.path.splitext(filename)[0]}.pdf")
+            new_pdf_document = fitz.open()
 
-            # Guarda la información en un archivo .txt
-            output_txt_path = os.path.join(output_folder, f"{os.path.splitext(filename)[0]}_borrar.txt")
-            with open(output_txt_path, 'w', encoding='utf-8') as delete_file:
-                for page_num, _ in filtered_pages:
-                    delete_file.write(str(page_num) + ",")
+            for page_num in range(pdf_document.page_count):
+                # Si la página no está en filtered_pages, agrégala al nuevo PDF
+                if page_num + 1 not in [page for page, _ in filtered_pages]:
+                    new_pdf_document.insert_pdf(pdf_document, from_page=page_num, to_page=page_num)
 
-            print(f"Proceso completado para {filename}. Páginas a borrar listadas en el archivo '{output_txt_path}'.")
+            # Guarda el nuevo PDF
+            new_pdf_document.save(new_pdf_path)
+            new_pdf_document.close()
+
+            print(f"Proceso completado para {filename}. Páginas a borrar excluidas. Nuevo PDF guardado en '{new_pdf_path}'.")
+
 
 if __name__ == "__main__":
-    input_folder = r"D:\clinica sanens semana 14122023"
+    input_folder = r'C:\Users\riosv\OneDrive\Desktop\New folder (2)'
     output_folder = "byn_resultados"
 
     # Convertir a blanco y negro, y calcular porcentajes para todos los archivos en la carpeta de entrada

@@ -28,20 +28,21 @@ def ocr_from_image(image):
     text = pytesseract.image_to_string(image)
     return text
 
-def extract_information(text, num_digits=8):
+def extract_information(text, num_digits=8, y=1):
     match_numero = re.search(rf'\b\d{{{num_digits}}}\b', text)
     numero_digitos = match_numero.group() if match_numero else ''
 
     x = ''
     lines = text.split('\n')
-    keywords = ["PACIENTE", "PACENTE", "PACIENTEI", "PACIENTEZ"]
+    keywords = ["PACIENTE","RPACIENTE", "PACENTE", "PACIENTEI", "PACIENTEZ", "FPACIENTE", "IPACIENTE", "APACIENTE"]
     for i, line in enumerate(lines):
         line = re.sub(r'[^a-zA-Z ]', '', line)
         line = line.replace(" ", "").replace("  ", "")
+        line = line.upper()
         for keyi in keywords:
             if keyi == line:
                 # Find the next non-blank line
-                for j in range(i + 1, len(lines)):
+                for j in range(i + y, len(lines)):
                     if lines[j].strip():
                         # Print information after the keyword
                         x = (lines[j].strip())
@@ -53,7 +54,7 @@ def extract_information(text, num_digits=8):
     x = ''
     for i in t:
         i = i.upper()
-        if len(i) > 2 or i in ["DE", "LA", "DA", "FE"]:
+        if len(i) > 2 or i in ["DE", "LA", "DA", "FE", "JO", "JR", "LI"]:
             replacements = {
                 "NUNEZ": "NUÑEZ",
                 "ORDONEZ": "ORDOÑEZ",
@@ -62,6 +63,7 @@ def extract_information(text, num_digits=8):
                 "BRENA": "BREÑA",
                 "ZUNIGA": "ZUÑIGA",
                 "MUNOZ": "MUÑOZ",
+                "MUNIZ": "MUÑIZ",
                 "CASTANEDA": "CASTAÑEDA",
                 "ORMENO": "ORMEÑO",
                 "RUBINOS": "RUBIÑOS",
@@ -71,9 +73,35 @@ def extract_information(text, num_digits=8):
                 "QUINONES": "QUIÑONES",
                 "QUINONEZ": "QUIÑONEZ",
                 "SUANA": "SUAÑA",
+                "OCANA": "OCAÑA",
+                "CARRENO" : "CARREÑO",
+                "PATINO" : "PATIÑO",
+                "DUENAS" : "DUEÑAS",
+                "JESSENA" : "JESSEÑA",
+                "AVENDANO" : "AVENDAÑO",
+                "BRICENO" : "BRICEÑO",
+                "ARGANDONA" : "ARGANDOÑA",
+                "AZANA" : "AZAÑA",
+                "LUDENA" : "LUDEÑA",
+                "MUNANTE" : "MUÑANTE",
+                "BOLANOS" : "BOLAÑOS",
+                "VICUNA" : "VICUÑA",
+                "ROMANA" : "ROMAÑA",
+                "ANAZGO" : "AÑAZGO",
+                "UCANA" : "UCAÑA",
+                "COVENAS" : "COVEÑAS",
+                "COBENAS" : "COBEÑAS",
+                "YANEZ" : "YAÑEZ",
+                "BOLANO" : "BOLAÑO",
+                "CANARI" : "CAÑARI",
+                "TUPINO" : "TUPIÑO",
+                "BANOS" : "BAÑOS",
+                "PINA" : "PIÑA",
             }
             x += replacements.get(i, i) + " "
 
+    if(numero_digitos=="" and num_digits==8):
+        return extract_information(text, 9)
     return numero_digitos, x.strip()
 
 def save_text_to_txt(text, output_path):
@@ -93,7 +121,7 @@ def convert_pdf_to_image(pdf_path, image_output):
     pdf_document.close()
 
 def main(input_file, t):
-    path = r'H:\CLINICA SANENS\sem4\\'
+    path = r'C:\Users\riosv\OneDrive\Desktop\New folder (2)\\'
     pdf_path = path + input_file + '.pdf'
     page_number = 1
     resolution = 200
@@ -130,6 +158,7 @@ def main(input_file, t):
         print()
         print("El nombre del archivo ha sido cambiado a:")
         print(nuevo_nombre)
+    
     elif respuesta == '9':
         print("NOSECAMBIO")
         print()
@@ -152,10 +181,56 @@ def main(input_file, t):
             print("repit")
             print()
             main(input_file, t)
+    elif respuesta == 'p':
+        print("NOSECAMBIO")
+        print()
+        numero_8_digitos, palabras_despues_paciente = extract_information(text, 8,-2)
+        nombre = str(input_file[0:t] + " " + numero_8_digitos + " " + palabras_despues_paciente)
+        nombre = nombre.replace("  ", " ")
+        print(nombre)
+        nuevo_path = path + nombre + ".pdf"
+        with open('nombre.txt', 'w', encoding='utf-8') as nombre_file:
+            nombre_file.write(nuevo_path)
+        respuesta = input("¿Desea cambiar el nombre del archivo? (Y/ i / 9 /2 /N): ").lower()
+        if respuesta in ['y', '']:
+            with open('nombre.txt', 'r', encoding='utf-8') as nombre_file:
+                nuevo_nombre = nombre_file.read().strip()
+                os.rename(pdf_path, nuevo_nombre)
+            print(f"El nombre del archivo ha sido cambiado a: ")
+            print(nuevo_path)
+            print()
+        else:
+            print("repit")
+            print()
+            main(input_file, t)
+    elif respuesta == '0':
+        print("NOSECAMBIO")
+        print()
+        numero_8_digitos, palabras_despues_paciente = extract_information(text, 8,-2)
+        nombre = str(input_file[0:t] + " " + numero_8_digitos + " " + palabras_despues_paciente)
+        nombre = nombre.replace("  ", " ")
+        print(nombre)
+        nuevo_path = path + nombre + ".pdf"
+        with open('nombre.txt', 'w', encoding='utf-8') as nombre_file:
+            nombre_file.write(nuevo_path)
+        respuesta = input("¿Desea cambiar el nombre del archivo? (Y/ i / 9 /2 /N): ").lower()
+        if respuesta in ['y', '']:
+            with open('nombre.txt', 'r', encoding='utf-8') as nombre_file:
+                nuevo_nombre = nombre_file.read().strip()
+                os.rename(pdf_path, nuevo_nombre)
+            print(f"El nombre del archivo ha sido cambiado a: ")
+            print(nuevo_path)
+            print()
+        else:
+            print("repit")
+            print()
+            main(input_file, t)
     elif respuesta == 'r':
         print("repit")
         print()
         main(input_file, t)
+    elif respuesta == '0':
+        print("next")
     else:
         print("repit")
         print()
