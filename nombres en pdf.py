@@ -1,7 +1,7 @@
 import os
 
 # Ruta de la carpeta
-carpeta = r"C:\Users\riosv\OneDrive\Desktop\New folder (2)"
+carpeta = r"D:\2301"
 
 # Obtener la lista de archivos en la carpeta
 archivos = os.listdir(carpeta)

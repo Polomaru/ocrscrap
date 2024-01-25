@@ -34,7 +34,7 @@ def extract_information(text, num_digits=8, y=1):
 
     x = ''
     lines = text.split('\n')
-    keywords = ["PACIENTE","RPACIENTE", "PACENTE", "PACIENTEI", "PACIENTEZ", "FPACIENTE", "IPACIENTE", "APACIENTE"]
+    keywords = ["PACIENTE","RPACIENTE", "PACENTE", "PACIENTEI", "PACIENTEZ", "FPACIENTE", "IPACIENTE", "APACIENTE", "DATOSPERSONALES", "OEDATOSPERSONALES" "EEDATOSPERSONALES"]
     for i, line in enumerate(lines):
         line = re.sub(r'[^a-zA-Z ]', '', line)
         line = line.replace(" ", "").replace("  ", "")
@@ -121,7 +121,7 @@ def convert_pdf_to_image(pdf_path, image_output):
     pdf_document.close()
 
 def main(input_file, t):
-    path = r'C:\Users\riosv\OneDrive\Desktop\New folder (2)\\'
+    path = r'D:\2301\\'
     pdf_path = path + input_file + '.pdf'
     page_number = 1
     resolution = 200

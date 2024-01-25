@@ -139,7 +139,7 @@ def convert_pdf_to_image(pdf_path, image_output):
     pdf_document.close()
 
 def main(input_file, t):
-    path = r'C:\Users\riosv\OneDrive\Desktop\New folder (2)\\'
+    path = r'D:\2301\\'
     pdf_path = path + input_file + '.pdf'
     page_number = 1
     resolution = 200
