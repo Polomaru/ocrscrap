@@ -34,7 +34,7 @@ def extract_information(text, num_digits=8, y=1):
 
     x = ''
     lines = text.split('\n')
-    keywords = ["PACIENTE","RPACIENTE", "PACENTE", "PACIENTEI", "PACIENTEZ", "FPACIENTE", "IPACIENTE", "APACIENTE", "DATOSPERSONALES", "OEDATOSPERSONALES" "EEDATOSPERSONALES"]
+    keywords = ["DATOSPERSONALESOO","DATOSPERSONALESZ","AEDATOSPERSONALES","NOMBRES","ZDATOSPERSONALES","DATOSPERSONALESAE","OEDATOSPERSONALES","EEDATOSPERSONALES","EEDATOSPERSONALESEE","ADATOSPERSONALES","DATOSPERSONALESA","SSDATOSPERSONALES","DATOSPERSONALESEE","OSDATOSPERSONALESA","LDATOSPERSONALES","PACIENTE","RPACIENTE", "PACENTE", "PACIENTEI", "PACIENTEZ", "FPACIENTE", "IPACIENTE", "APACIENTE", "DATOSPERSONALES", "OEDATOSPERSONALES" "EEDATOSPERSONALES"]
     for i, line in enumerate(lines):
         line = re.sub(r'[^a-zA-Z ]', '', line)
         line = line.replace(" ", "").replace("  ", "")
@@ -54,7 +54,7 @@ def extract_information(text, num_digits=8, y=1):
     x = ''
     for i in t:
         i = i.upper()
-        if len(i) > 2 or i in ["DE", "LA", "DA", "FE", "JO", "JR", "LI"]:
+        if (len(i) > 2 or i in ["DE", "LA", "DA", "FE", "JO", "JR", "LI"]) and i not in ["NOMBRES", "EDAD", "SEXO", "FEMENINO", "MASCULINO"]:
             replacements = {
                 "NUNEZ": "NUÑEZ",
                 "ORDONEZ": "ORDOÑEZ",
@@ -121,7 +121,7 @@ def convert_pdf_to_image(pdf_path, image_output):
     pdf_document.close()
 
 def main(input_file, t):
-    path = r'D:\2301\\'
+    path = r'D:\nuevo 29-01\\'
     pdf_path = path + input_file + '.pdf'
     page_number = 1
     resolution = 200

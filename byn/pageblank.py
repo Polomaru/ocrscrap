@@ -115,7 +115,7 @@ def convert_folder_to_bw(input_folder, output_folder, dpi=100):
             new_pdf_document = fitz.open()
 
             for page_num in range(pdf_document.page_count):
-                # Si la página no está en filtered_pages, agrégala al nuevo PDF
+                # Si la página no está en filtered_pages, agrégala al nuevo PDFTYBH0, 
                 if page_num + 1 not in [page for page, _ in filtered_pages]:
                     new_pdf_document.insert_pdf(pdf_document, from_page=page_num, to_page=page_num)
 

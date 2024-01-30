@@ -1,7 +1,7 @@
 import os
 
 # Ruta de la carpeta
-carpeta = r"D:\2301"
+carpeta = r"D:\nuevo 29-01"
 
 # Obtener la lista de archivos en la carpeta
 archivos = os.listdir(carpeta)
