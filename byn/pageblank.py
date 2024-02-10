@@ -111,7 +111,7 @@ def convert_folder_to_bw(input_folder, output_folder, dpi=100):
             # Filtra las páginas con porcentaje de blanco mayor al 98%
             filtered_pages = [(page, white_percentage) for page, white_percentage in page_info_list if white_percentage > 99.8]
             
-            new_pdf_path = os.path.join(output_folder, f"D:\\A\{os.path.splitext(filename)[0]}.pdf")
+            new_pdf_path = os.path.join(output_folder, f"C:\\Users\\USUARIO\\Desktop\\clinica sanens\\sanens clinica 17 01 2024\\A\{os.path.splitext(filename)[0]}.pdf")
             new_pdf_document = fitz.open()
 
             for page_num in range(pdf_document.page_count):
@@ -127,7 +127,7 @@ def convert_folder_to_bw(input_folder, output_folder, dpi=100):
 
 
 if __name__ == "__main__":
-    input_folder = r'D:\2301'
+    input_folder = r'C:\Users\USUARIO\Desktop\clinica sanens\sanens clinica 17 01 2024'
     output_folder = "byn_resultados"
 
     # Convertir a blanco y negro, y calcular porcentajes para todos los archivos en la carpeta de entrada

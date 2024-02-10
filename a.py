@@ -54,7 +54,7 @@ def extract_information(text, num_digits=8, y=1):
     x = ''
     for i in t:
         i = i.upper()
-        if (len(i) > 2 or i in ["DE", "LA", "DA", "FE", "JO", "JR", "LI"]) and i not in ["NOMBRES", "EDAD", "SEXO", "FEMENINO", "MASCULINO"]:
+        if (len(i) > 2 or i in ["DE", "LA", "DA", "FE", "JO", "JR", "LI"]) and i not in ["NOMBRES", "EDAD", "SEXO", "FEMENINO", "MASCULINO", "ANOS", "ANO"]:
             replacements = {
                 "NUNEZ": "NUÑEZ",
                 "ORDONEZ": "ORDOÑEZ",
@@ -97,6 +97,7 @@ def extract_information(text, num_digits=8, y=1):
                 "TUPINO" : "TUPIÑO",
                 "BANOS" : "BAÑOS",
                 "PINA" : "PIÑA",
+                "SIGUENAS" : "SIGUEÑAS",
             }
             x += replacements.get(i, i) + " "
 
@@ -121,10 +122,10 @@ def convert_pdf_to_image(pdf_path, image_output):
     pdf_document.close()
 
 def main(input_file, t):
-    path = r'D:\nuevo 29-01\\'
+    path = r'C:\Users\USUARIO\Desktop\sonox\\'
     pdf_path = path + input_file + '.pdf'
     page_number = 1
-    resolution = 200
+    resolution = 150
     contrast_factor = 1.5
 
     convert_pdf_to_image(pdf_path, "ps.png")
@@ -158,7 +159,22 @@ def main(input_file, t):
         print()
         print("El nombre del archivo ha sido cambiado a:")
         print(nuevo_nombre)
-    
+    elif respuesta == 's':
+        print("SOAT")
+        print()
+        with open('nombre.txt', 'r', encoding='utf-8') as nombre_file:
+            nuevo_nombre = nombre_file.read().strip()
+            nuevo_nombre=nuevo_nombre.split()
+
+            nuevo_nombre.insert(1, "SOAT")
+            t=""
+            for i in nuevo_nombre: t+=i+" "
+            t=t[:-1]
+            os.rename(pdf_path, t)
+        print(f"El nombre del archivo ha sido cambiado a: ")
+        print(nuevo_nombre)
+        print()
+
     elif respuesta == '9':
         print("NOSECAMBIO")
         print()

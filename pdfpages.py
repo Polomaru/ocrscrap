@@ -15,7 +15,7 @@ def contar_paginas_pdf(carpeta):
     return total_paginas
 
 # Ruta de la carpeta en el USB (cambia la letra de unidad según sea necesario)
-carpeta_pdf_usb = "E:\\CLINICA SANENS\\Clinica sanens sem2"
+carpeta_pdf_usb = r"E:\cursos"
 
 # Llamada a la función para contar páginas
 total_paginas = contar_paginas_pdf(carpeta_pdf_usb)
